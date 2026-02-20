@@ -1,0 +1,57 @@
+<style>
+  .recommended-products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    list-style: none;
+    padding-left: 0;
+  }
+  .card__inner .media {
+    position: static;
+  }
+  @media (min-width: 1024px) {
+    .recommended-products-grid {
+      grid-template-columns: repeat(auto-fit, 1fr);
+    }
+  }
+</style>
+<div class="page-widht">
+  <recommended-product
+    data_url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
+    data_product_id="{{ product.id }}"
+    data_section_id="{{ section.id }}"
+  >
+    {% if recommendations.performed? and recommendations.products_count > 0 %}
+      <h2>Recommended Products</h2>
+      <ul class="recommended-products-grid">
+        {% for recommendation in recommendations.products %}
+          <li>
+            {% render 'card-product', card_product: recommendation %}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </recommended-product>
+</div>
+<script src="{{ 'recommeded-product.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "Recommended Product",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "default": 4,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Products To Show"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Recommended Product"
+    }
+  ]
+}
+{% endschema %}
