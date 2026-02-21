@@ -100,7 +100,8 @@
         }
       ],
       "default": "h1",
-      "label": "t:sections.all.heading_size.label"
+      "label": "t:sections.all.heading_size.label",
+      "visible_if": "{{ section.settings.heading != '' }}"
     },
     {
       "type": "range",
@@ -134,7 +135,7 @@
           "value": "2",
           "label": "t:sections.related-products.settings.columns_mobile.options__2.label"
         }
-      ]    
+      ]
     },
     {
       "type": "color_scheme",
