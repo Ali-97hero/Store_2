@@ -1,0 +1,63 @@
+{% if section.settings.image_picker_id %}
+  <div
+    class="page-width"
+    style="
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px
+    "
+  >
+    <div
+      style="
+        width: 100%
+        heigth: auto;
+        object-fit: contain;
+      "
+    >
+      {{ section.settings.image_picker_id | image_url: width: 1500, height: 1000 | image_tag }}
+    </div>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        flex-flow: column nowrap;
+        gap: 15px;
+      "
+    >
+      <div>{{ section.settings.richtext_id }}</div>
+      <div>{{ section.settings.description_id }}</div>
+    </div>
+  </div>
+{% else %}
+  <p class=" text-center ">Please Select Your Influencer.</p>
+{% endif %}
+{% schema %}
+{
+  "name": "Influencer Rendering",
+  "class": "influencer_rendering_section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "label": "Image",
+      "id": "image_picker_id"
+    },
+    {
+      "type": "richtext",
+      "id": "richtext_id",
+      "label": "Name",
+      "default": "<p>Hi! Im an Influencer.</p>"
+    },
+    {
+      "type": "richtext",
+      "label": "Description",
+      "id": "description_id"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Influencer Rendering"
+    }
+  ]
+}
+{% endschema %}

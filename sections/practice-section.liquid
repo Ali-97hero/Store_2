@@ -1,0 +1,39 @@
+<div
+  class="page-width"
+  style="
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+  "
+>
+  {% if section.settings.product != '' %}
+    <div class="image_wrapper">
+      {{ section.settings.product.featured_image | image_url: width: 500, height: 500 | image_tag }}
+    </div>
+    <p>{{ section.settings.product }}</p>
+    <button class="button"><a href="{{ section.settings.product.url }}">View Product</a></button>
+    <p>Snowboard Length: {{ section.settings.product.metafields.test_data.snowboard_length | metafield_tag }}</p>
+  {% else %}
+    <p class="title_wrapper">Please Select a Product.</p>
+  {% endif %}
+</div>
+{% schema %}
+{
+  "name": "Practice Featured Product",
+  "class": "practice_featured_product",
+  "settings": [
+    {
+      "type": "product",
+      "label": "Product",
+      "id": "product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Practice Feautred Product"
+    }
+  ]
+}
+{% endschema %}
