@@ -1,4 +1,4 @@
-let dotButton = document.querySelectorAll("  .dot__button");
+let dotButton = document.querySelectorAll(".dot__button");
 dotButton.forEach((dot) => {
   dot.addEventListener("click", () => {
     const productId = dot.dataset.productId;

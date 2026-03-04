@@ -21,6 +21,7 @@
   padding-right: var(--section-horizontal-padding);
 }
 .section_title__class {
+  cursor: pointer;
   color: var(--section-title-color);
   margin-top: var(--section-title-top-margin);
   margin-bottom: var(--section-title-bottom-margin);
@@ -29,6 +30,7 @@
   letter-spacing: var(--section-title-letter-spacing);
 }
 .section_text__class {
+  cursor: pointer;
   color: var(--section-textarea-color);
   margin-top: var(--section-textarea-top-margin);
   margin-bottom: var(--section-textarea-bottom-margin);
@@ -85,7 +87,6 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  background-color: black;
 }
 .product_section__inner_wrapper {
   display: flex;
@@ -113,6 +114,7 @@
   box-sizing: border-box;
 }
 .product__img {
+  cursor: pointer;
   object-fit: cover;
   width: 100px;
   height: 100%;
@@ -120,6 +122,7 @@
 }
 
 .product_title_wrapper {
+  cursor: pointer;
   color: var(--product-title-color);
   margin-top: var(--product-title-margin-top);
   margin-bottom: var(--product-title-margin-bottom);
@@ -128,6 +131,7 @@
   letter-spacing: var(--product-title-letter-spacing);
 }
 .product_price_wrapper {
+  cursor: pointer;
   color: var(--product-price-color);
   margin-top: var(--product-price-top-margin);
   margin-bottom: var(--product-price-bottom-margin);
@@ -135,6 +139,7 @@
   letter-spacing: var(--product-price-letter-spacing-size);
 }
 .product_button_wrapper {
+  cursor: pointer;
   padding-left: var(--product-button-horizontal-padding);
   padding-right: var(--product-button-horizontal-padding);
   padding-top: var(--product-button-vertical-padding);
@@ -149,6 +154,12 @@
   letter-spacing: var(--product-button-letter-spacing);
   border-color: var(--product-button-border-color);
   color: var(--product-button-color);
+}
+.product_button_anchor_link {
+  text-decoration: none;
+  color: var(--product-button-color);
+  font-size: var(--product-button-font-size);
+  letter-spacing: var(--product-button-letter-spacing);
 }
 .product_button_wrapper:hover {
   color: var(--product-button-hover-color);
@@ -241,6 +252,10 @@
   .product_button_wrapper {
     margin-top: var(--product-button-margin-top-mobile);
     margin-bottom: var(--product-button-margin-bottom-mobile);
+    font-size: var(--product-button-font-size-mobile);
+    letter-spacing: var(--product-button-letter-spacing-mobile);
+  }
+  .product_button_anchor_link {
     font-size: var(--product-button-font-size-mobile);
     letter-spacing: var(--product-button-letter-spacing-mobile);
   }
