@@ -241,18 +241,16 @@
                 <div
                   class="product_image_wrapper"
                   style="
-                                       {% if section.settings.show_product_image == true %}
-                    display: block;
-                    {% else %}
-                    display: none;
-                    {% endif %}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {% if section.settings.show_product_image == true %}display: block;{% else %}display: none;{% endif %}
                   "
                 >
-                  {{
-                    block.settings.product.featured_image
-                    | image_url: width: 500, height: 500
-                    | image_tag: class: 'product__image'
-                  }}
+                  <a href="{{ block.settings.product.url }}">
+                    {{
+                      block.settings.product.featured_image
+                      | image_url: width: 500, height: 500
+                      | image_tag: class: 'product__img'
+                    }}
+                  </a>
                 </div>
                 <div {{ block.shopify_attributes }} class="product_text_content__wrapper" style="text-align: center">
                   <{{ section.settings.product_title_html }}
@@ -299,7 +297,8 @@
                   </div>
                 </div>
                 <button
-                  class="product_button_wrapper"
+                  data-variant-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
+                  class="product_button_wrapper shop-now-btn"
                   style="
                     display: {% if section.settings.button_checkbox == true %}block{% else %}none{% endif %};
                     font-family: {% if section.settings.button_custom_font == true and section.settings.button_custom_font_family != '' %}
@@ -314,9 +313,7 @@
                     {% endif %};
                   "
                 >
-                  <div>
-                    <a class="product_button_anchor_link">{{ section.settings.button_label }}</a>
-                  </div>
+                  {{- section.settings.button_label -}}
                 </button>
               </div>
             {% endif %}
@@ -370,11 +367,6 @@
       "type": "image_picker",
       "label": "Image",
       "id": "image_picker_desktop"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_picker_modile",
-      "label": "Image for Mobile"
     },
     {
       "type": "select",
@@ -736,7 +728,7 @@
       "type": "color",
       "label": "Section Textblock Color",
       "id": "section_textblock_color",
-      "default": "#ffffff"
+      "default": "#000000"
     },
     {
       "type": "checkbox",
@@ -870,27 +862,6 @@
       "step": 1,
       "unit": "px",
       "label": "Section Text Area Letter Spacing - Mobile",
-      "default": 0
-    },
-    {
-      "type": "header",
-      "content": "AUTOPLAY"
-    },
-    {
-      "type": "checkbox",
-      "id": "autoplay_checkbox",
-      "label": "Auto loop products",
-      "default": false,
-      "info": "This is display each product in the bundle automatically in a loop."
-    },
-    {
-      "type": "range",
-      "id": "autoplay_range",
-      "min": 0,
-      "max": 15,
-      "step": 1,
-      "unit": "s",
-      "label": "Autoplay Interval (in seconds)",
       "default": 0
     },
     {

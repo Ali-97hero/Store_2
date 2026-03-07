@@ -14,3 +14,23 @@ dotButton.forEach((dot) => {
     }
   });
 });
+
+document.querySelectorAll(".shop-now-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const variantId = btn.dataset.variantId;
+    addToCart(variantId);
+  });
+});
+
+function addToCart(variantId) {
+  fetch("/cart/add.js", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ id: variantId, quantity: 1 }),
+  })
+    .then((res) => res.json())
+    .then(() => {
+      window.location.href = "/cart";
+    })
+    .catch((err) => console.error("Add to cart failed:", err));
+}
