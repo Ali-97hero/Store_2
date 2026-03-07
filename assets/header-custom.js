@@ -209,3 +209,13 @@ function attachCartListeners() {
     });
   });
 }
+
+const header = document.querySelector(".header_section");
+function setDropdownTop() {
+  const headerBottom = header.getBoundingClientRect().bottom;
+  document.querySelectorAll(".mega-dropdown").forEach((dropdown) => {
+    dropdown.style.top = headerBottom + "px";
+  });
+}
+setDropdownTop();
+window.addEventListener("scroll", setDropdownTop);

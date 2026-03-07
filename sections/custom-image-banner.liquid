@@ -1,7 +1,605 @@
+{{ 'custom-banner.css' | asset_url | stylesheet_tag }}
+
+<style>
+  :root {
+  }
+</style>
+
+{%- assign hero_height = '75vh' -%}
+{%- if section.settings.height_select == 'small' -%}
+  {%- assign hero_height = '60vh' -%}
+{%- elsif section.settings.height_select == 'medium' -%}
+  {%- assign hero_height = '75vh' -%}
+{% elsif section.settings.height_select == 'large' %}
+  {% assign hero_height = '95vh' %}
+{%- endif -%}
+
+<div class="hero-parent">
+  <div class="hero-child">
+    <div
+      class="hero-bg"
+      style=" height: {{ hero_height }};"
+    >
+      {% if section.settings.hero_image %}
+        {{ section.settings.hero_image | image_url: width: 1500, height: 1500 | image_tag: class: 'hero-img' }}
+      {% else %}
+        <p>No Image Selected.</p>
+      {% endif %}
+    </div>
+    <div class="hero-content-parent custom-width">
+      <div
+        class="hero-content custom-width"
+        style="
+          align-items:{% if section.settings.content_alignment == 'left' %}
+          flex-start;
+          {% elsif section.settings.content_alignment == 'center' %}
+           center;
+           {% elsif section.settings.content_alignment == 'right' %}
+            flex-end;
+            {% endif %}
+        "
+      >
+        {% for block in section.blocks %}
+          {% if block.type == 'heading_block' %}
+            <h1
+              class="hero-heading"
+              style="
+                              text-align: {% if section.settings.content_alignment == 'left' %}
+                left;
+                {% elsif section.settings.content_alignment == 'center' %}
+                center;
+                {% elsif section.settings.content_alignment == 'right' %}
+                  right;
+                {% endif %};
+                font-size: {% if block.settings.heading_size == 'small' %}
+                25px;
+                {% elsif block.settings.heading_size == 'medium' %}
+                35px;
+                {% elsif block.settings.heading_size == 'large' %}
+                40px;
+                {% elsif block.settings.heading_size == 'extra_large' %}
+                50px;
+                {% endif %};
+                color: {{ block.settings.header_color }};
+                --heading-top-margin: {{ block.settings.heading_margin_top }}px;
+                --heading-bottom-margin : {{block.settings.heading_margin_bottom }}px;
+              "
+            >
+              {{ block.settings.heading }}
+            </h1>
+          {% endif %}
+          {% if block.type == 'text_block' %}
+            <p
+              class="hero-text"
+              style="
+                text-transform: {% if block.settings.text_style == 'body' %}
+                inherit;
+                {% elsif block.settings.text_style == 'subtitle' %}
+                capitalize;
+                {% elsif block.settings.text_style == 'uppercase' %}
+                uppercase;
+                {%endif %}
+                text-align: {% if section.settings.content_alignment == 'left' %}
+                left;
+                {% elsif section.settings.content_alignment == 'center' %}
+                center;
+                {% elsif section.settings.content_alignment == 'right' %}
+                  right;
+                {% endif %};
+                color: {{ block.settings.text_color }};
+                --text-top-margin: {{block.settings.text_top_margin }}px;
+                --text-bottom-margin: {{ block.settings.text_bottom_margin }}px;
+              "
+            >
+              {{ block.settings.hero_text }}
+            </p>
+          {% endif %}
+          {% if block.type == 'button_block' %}
+            <div
+              class="hero-btn-flex"
+              style="
+                --btn-border-width: {{ block.settings.button_border_width }}px;
+                --btn-border-color: {{ block.settings.button_border_color }};
+                --btn-border-radius: {{ block.settings.button_border_radius }}px;
+                  --btn-color: {{ block.settings.button_link_color }};
+                  --btn-bg-color: {{ block.settings.button_bg_color }};
+                  --btn-hover-color: {{ block.settings.button_link_hover_color }};
+                  --btn-hover-bg: {{ block.settings.button_link_hover_bg }};
+                  --btn2-color: {{ block.settings.button_link_2_color }};
+                  --btn2-bg-color : {{ block.settings.button_bg_2_color }};
+                  --btn2-width : {{ block.settings.button2_border_width }}px;
+                  --btn2-border-color : {{block.settings.button2_border_color }};
+                  --btn2-radius : {{ block.settings.button2_border_radius }}px;
+                  --btn2-hover-color: {{ block.settings.button_link_2_hover_color }};
+                  --btn2-hover-bg: {{ block.settings.button_link_2_hover_bg }};
+              "
+            >
+              <a href="{{ block.settings.button_link }}">
+                <button class="hero-btn shop">
+                  {{ block.settings.button_label }}
+                </button>
+              </a>
+              {% if block.settings.show_button_2 == true %}
+                <a href="{{block.settings.button_link_2 }}">
+                  <button class="hero-btn view">
+                    {{ block.settings.button_label_2 }}
+                  </button>
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="hero-second-child">
+    <div class="hero2-bg">
+      {% if section.settings.hero_image %}
+        {{ section.settings.hero_image | image_url: width: 1500, height: 1500 | image_tag: class: 'hero-img-2' }}
+      {% else %}
+        <p>No Image Selected.</p>
+      {% endif %}
+    </div>
+    <div class="hero2-content">
+      {% for block in section.blocks %}
+        {% if block.type == 'heading_block' %}
+          <h1
+            class="hero-heading hero2-heading"
+            style="
+                          text-align: {% if section.settings.content_alignment == 'left' %}
+                left;
+                {% elsif section.settings.content_alignment == 'center' %}
+                center;
+                {% elsif section.settings.content_alignment == 'right' %}
+                  right;
+                {% endif %};
+              font-size: {% if block.settings.heading_size == 'small' %}
+              25px;
+              {% elsif block.settings.heading_size == 'medium' %}
+              35px;
+              {% elsif block.settings.heading_size == 'large' %}
+              40px;
+              {% elsif block.settings.heading_size == 'extra_large' %}
+              50px;
+              {% endif %};
+              color: {{ block.settings.header_color }};
+              --heading-top-margin: {{ block.settings.heading_margin_top }}px;
+              --heading-bottom-margin : {{block.settings.heading_margin_bottom }}px;
+            "
+          >
+            {{ block.settings.heading }}
+          </h1>
+        {% endif %}
+        {% if block.type == 'text_block' %}
+          <p
+            class="hero-text hero2-text"
+            style="
+                           text-transform: {% if block.settings.text_style == 'body' %}
+              inherit;
+              {% elsif block.settings.text_style == 'subtitle' %}
+              capitalize;
+              {% elsif block.settings.text_style == 'uppercase' %}
+              uppercase;
+              {%endif %}
+              text-align: {% if section.settings.content_alignment == 'left' %}
+              left;
+              {% elsif section.settings.content_alignment == 'center' %}
+              center;
+              {% elsif section.settings.content_alignment == 'right' %}
+                right;
+              {% endif %};
+              color: {{ block.settings.text_color }};
+              --text-top-margin: {{block.settings.text_top_margin }}px;
+              --text-bottom-margin: {{ block.settings.text_bottom_margin }}px;
+            "
+          >
+            {{ block.settings.hero_text }}
+          </p>
+        {% endif %}
+        {% if block.type == 'button_block' %}
+          <div
+            class="hero-btn-flex hero2_btn_flex"
+            style="
+                           justify-content: {% if section.settings.content_alignment == 'left' %}
+                flex-start;
+                {% elsif section.settings.content_alignment == 'center' %}
+                center;
+                {% elsif section.settings.content_alignment == 'right' %}
+                flex-end;
+                {% endif %};
+              --btn-border-width: {{ block.settings.button_border_width }}px;
+              --btn-border-color: {{ block.settings.button_border_color }};
+              --btn-border-radius: {{ block.settings.button_border_radius }}px;
+                --btn-color: {{ block.settings.button_link_color }};
+                --btn-bg-color: {{ block.settings.button_bg_color }};
+                --btn-hover-color: {{ block.settings.button_link_hover_color }};
+                --btn-hover-bg: {{ block.settings.button_link_hover_bg }};
+                --btn2-color: {{ block.settings.button_link_2_color }};
+                --btn2-bg-color : {{ block.settings.button_bg_2_color }};
+                --btn2-width : {{ block.settings.button2_border_width }}px;
+                --btn2-border-color : {{block.settings.button2_border_color }};
+                --btn2-radius : {{ block.settings.button2_border_radius }}px;
+                --btn2-hover-color: {{ block.settings.button_link_2_hover_color }};
+                --btn2-hover-bg: {{ block.settings.button_link_2_hover_bg }};
+            "
+          >
+            <a href="{{ block.settings.button_link }}">
+              <button class="hero-btn shop">
+                {{ block.settings.button_label }}
+              </button>
+            </a>
+            {% if block.settings.show_button_2 == true %}
+              <a href="{{block.settings.button_link_2 }}">
+                <button class="hero-btn view">
+                  {{ block.settings.button_label_2 }}
+                </button>
+              </a>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'custom-banner.css' | asset_url }}" async></script>
+
 {% schema %}
 {
   "name": "Image Banner",
   "class": "custom_image_banner",
-  "settings": []
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Image Banner"
+    },
+    {
+      "type": "select",
+      "id": "height_select",
+      "label": "Height",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading_block",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "label": "Heading",
+          "id": "heading",
+          "default": "Hello World"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading Size",
+          "options": [
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "extra_large",
+              "label": "Extra Large"
+            }
+          ],
+          "default": "large"
+        },
+        {
+          "type": "color",
+          "id": "header_color",
+          "label": "Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "range",
+          "id": "heading_margin_top",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Margin Top",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "heading_margin_bottom",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "text_block",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "hero_text",
+          "label": "Text",
+          "default": "Give customers details about the banner image(s) or content on the template."
+        },
+        {
+          "type": "header",
+          "content": "Text Styling"
+        },
+        {
+          "type": "range",
+          "id": "text_top_margin",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Margin Top",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "text_bottom_margin",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Margin Bottom",
+          "default": 10
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "label": "Style",
+          "options": [
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "subtitle",
+              "label": "Subtitle"
+            },
+            {
+              "value": "uppercase",
+              "label": "Uppercase"
+            }
+          ],
+          "default": "body"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Color",
+          "default": "#ffffff"
+        }
+      ]
+    },
+    {
+      "type": "button_block",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Label",
+          "default": "Shop Now",
+          "info": "Leave blank to hide."
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Button Styling"
+        },
+        {
+          "type": "color",
+          "id": "button_link_color",
+          "label": "Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Background Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "button_link_hover_color",
+          "label": "Hover Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_link_hover_bg",
+          "label": "Hover Background Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "button_border_width",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Border Width",
+          "default": 1
+        },
+        {
+          "type": "color",
+          "id": "button_border_color",
+          "label": "Border Color",
+          "default": "#e5e5e5"
+        },
+        {
+          "type": "range",
+          "id": "button_border_radius",
+          "min": 1,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Border Radius",
+          "default": 25
+        },
+        {
+          "type": "header",
+          "content": "Button 2"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_button_2",
+          "label": "Show Button 2",
+          "default": false,
+          "info": "Enable it to show and use Button 2."
+        },
+        {
+          "type": "text",
+          "id": "button_label_2",
+          "label": "Label",
+          "default": "View Lookbook"
+        },
+        {
+          "type": "url",
+          "id": "button_link_2",
+          "label": "Link"
+        },
+        {
+          "type": "header",
+          "content": "Button 2 Styling"
+        },
+        {
+          "type": "color",
+          "id": "button_link_2_color",
+          "label": "Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_2_color",
+          "label": "Background Color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "button_link_2_hover_color",
+          "label": "Hover Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "button_link_2_hover_bg",
+          "label": "Hover Background Color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "button2_border_width",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Border Width",
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "button2_border_radius",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "unit": "px",
+          "label": "Border Radius",
+          "default": 1
+        },
+        {
+          "type": "color",
+          "id": "button2_border_color",
+          "label": "Border Color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Image Banner"
+    }
+  ]
 }
 {% endschema %}
