@@ -15,42 +15,146 @@
 {%- endif -%}
 
 <div class="hero-parent">
-  <div class="hero-child">
-    <div
-      class="hero-bg"
-      style=" height: {{ hero_height }};"
-    >
-      {% if section.settings.hero_image %}
-        {{ section.settings.hero_image | image_url: width: 1500, height: 1500 | image_tag: class: 'hero-img' }}
-      {% else %}
-        <p>No Image Selected.</p>
-      {% endif %}
-    </div>
-    <div class="hero-content-parent custom-width">
+  {% if section.settings.image_container_layout == 'centered' %}
+    <div class="hero-child">
       <div
-        class="hero-content custom-width"
-        style="
-          align-items:{% if section.settings.content_alignment == 'left' %}
-          flex-start;
-          {% elsif section.settings.content_alignment == 'center' %}
-           center;
-           {% elsif section.settings.content_alignment == 'right' %}
-            flex-end;
-            {% endif %}
-        "
+        class="hero-bg"
+        style=" height: {{ hero_height }};"
       >
+        {% if section.settings.hero_image %}
+          {{ section.settings.hero_image | image_url: width: 1500, height: 1500 | image_tag: class: 'hero-img' }}
+        {% else %}
+          <p>No Image Selected.</p>
+        {% endif %}
+      </div>
+      <div class="hero-content-parent custom-width">
+        <div
+          class="hero-content custom-width"
+          style="
+            align-items:{% if section.settings.content_alignment == 'left' %}
+            flex-start;
+            {% elsif section.settings.content_alignment == 'center' %}
+             center;
+             {% elsif section.settings.content_alignment == 'right' %}
+              flex-end;
+              {% endif %}
+          "
+        >
+          {% for block in section.blocks %}
+            {% if block.type == 'heading_block' %}
+              <h1
+                class="hero-heading"
+                style="
+                                text-align: {% if section.settings.content_alignment == 'left' %}
+                  left;
+                  {% elsif section.settings.content_alignment == 'center' %}
+                  center;
+                  {% elsif section.settings.content_alignment == 'right' %}
+                    right;
+                  {% endif %};
+                  font-size: {% if block.settings.heading_size == 'small' %}
+                  25px;
+                  {% elsif block.settings.heading_size == 'medium' %}
+                  35px;
+                  {% elsif block.settings.heading_size == 'large' %}
+                  40px;
+                  {% elsif block.settings.heading_size == 'extra_large' %}
+                  50px;
+                  {% endif %};
+                  color: {{ block.settings.header_color }};
+                  --heading-top-margin: {{ block.settings.heading_margin_top }}px;
+                  --heading-bottom-margin : {{block.settings.heading_margin_bottom }}px;
+                "
+              >
+                {{ block.settings.heading }}
+              </h1>
+            {% endif %}
+            {% if block.type == 'text_block' %}
+              <p
+                class="hero-text"
+                style="
+                  text-transform: {% if block.settings.text_style == 'body' %}
+                  inherit;
+                  {% elsif block.settings.text_style == 'subtitle' %}
+                  capitalize;
+                  {% elsif block.settings.text_style == 'uppercase' %}
+                  uppercase;
+                  {%endif %}
+                  text-align: {% if section.settings.content_alignment == 'left' %}
+                  left;
+                  {% elsif section.settings.content_alignment == 'center' %}
+                  center;
+                  {% elsif section.settings.content_alignment == 'right' %}
+                    right;
+                  {% endif %};
+                  color: {{ block.settings.text_color }};
+                  --text-top-margin: {{block.settings.text_top_margin }}px;
+                  --text-bottom-margin: {{ block.settings.text_bottom_margin }}px;
+                "
+              >
+                {{ block.settings.hero_text }}
+              </p>
+            {% endif %}
+            {% if block.type == 'button_block' %}
+              <div
+                class="hero-btn-flex"
+                style="
+                  --btn-border-width: {{ block.settings.button_border_width }}px;
+                  --btn-border-color: {{ block.settings.button_border_color }};
+                  --btn-border-radius: {{ block.settings.button_border_radius }}px;
+                    --btn-color: {{ block.settings.button_link_color }};
+                    --btn-bg-color: {{ block.settings.button_bg_color }};
+                    --btn-hover-color: {{ block.settings.button_link_hover_color }};
+                    --btn-hover-bg: {{ block.settings.button_link_hover_bg }};
+                    --btn2-color: {{ block.settings.button_link_2_color }};
+                    --btn2-bg-color : {{ block.settings.button_bg_2_color }};
+                    --btn2-width : {{ block.settings.button2_border_width }}px;
+                    --btn2-border-color : {{block.settings.button2_border_color }};
+                    --btn2-radius : {{ block.settings.button2_border_radius }}px;
+                    --btn2-hover-color: {{ block.settings.button_link_2_hover_color }};
+                    --btn2-hover-bg: {{ block.settings.button_link_2_hover_bg }};
+                "
+              >
+                <a href="{{ block.settings.button_link }}">
+                  <button class="hero-btn shop">
+                    {{ block.settings.button_label }}
+                  </button>
+                </a>
+                {% if block.settings.show_button_2 == true %}
+                  <a href="{{block.settings.button_link_2 }}">
+                    <button class="hero-btn view">
+                      {{ block.settings.button_label_2 }}
+                    </button>
+                  </a>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% elsif section.settings.image_container_layout == 'split' %}
+    <div class="hero2-child" {% comment %} style=" height: {{ hero_height }};" {% endcomment %}>
+      <div class="hero2-bg">
+        {% if section.settings.hero_image %}
+          {{ section.settings.hero_image | image_url: width: 1500, height: 1500 | image_tag: class: 'hero-img-2' }}
+        {% else %}
+          <p>No Image Selected.</p>
+        {% endif %}
+      </div>
+      <div class="hero2-content">
         {% for block in section.blocks %}
           {% if block.type == 'heading_block' %}
             <h1
-              class="hero-heading"
+              class="hero-heading hero2-heading"
               style="
-                              text-align: {% if section.settings.content_alignment == 'left' %}
-                left;
-                {% elsif section.settings.content_alignment == 'center' %}
-                center;
-                {% elsif section.settings.content_alignment == 'right' %}
-                  right;
-                {% endif %};
+                            text-align: {% if section.settings.content_alignment == 'left' %}
+                  left;
+                  {% elsif section.settings.content_alignment == 'center' %}
+                  center;
+                  {% elsif section.settings.content_alignment == 'right' %}
+                    right;
+                  {% endif %};
                 font-size: {% if block.settings.heading_size == 'small' %}
                 25px;
                 {% elsif block.settings.heading_size == 'medium' %}
@@ -70,9 +174,9 @@
           {% endif %}
           {% if block.type == 'text_block' %}
             <p
-              class="hero-text"
+              class="hero-text hero2-text"
               style="
-                text-transform: {% if block.settings.text_style == 'body' %}
+                             text-transform: {% if block.settings.text_style == 'body' %}
                 inherit;
                 {% elsif block.settings.text_style == 'subtitle' %}
                 capitalize;
@@ -96,8 +200,15 @@
           {% endif %}
           {% if block.type == 'button_block' %}
             <div
-              class="hero-btn-flex"
+              class="hero-btn-flex hero2_btn_flex"
               style="
+                             justify-content: {% if section.settings.content_alignment == 'left' %}
+                  flex-start;
+                  {% elsif section.settings.content_alignment == 'center' %}
+                  center;
+                  {% elsif section.settings.content_alignment == 'right' %}
+                  flex-end;
+                  {% endif %};
                 --btn-border-width: {{ block.settings.button_border_width }}px;
                 --btn-border-color: {{ block.settings.button_border_color }};
                 --btn-border-radius: {{ block.settings.button_border_radius }}px;
@@ -131,115 +242,143 @@
         {% endfor %}
       </div>
     </div>
-  </div>
-  <div class="hero-second-child">
-    <div class="hero2-bg">
-      {% if section.settings.hero_image %}
-        {{ section.settings.hero_image | image_url: width: 1500, height: 1500 | image_tag: class: 'hero-img-2' }}
-      {% else %}
-        <p>No Image Selected.</p>
-      {% endif %}
-    </div>
-    <div class="hero2-content">
-      {% for block in section.blocks %}
-        {% if block.type == 'heading_block' %}
-          <h1
-            class="hero-heading hero2-heading"
-            style="
-                          text-align: {% if section.settings.content_alignment == 'left' %}
+  {% elsif section.settings.image_container_layout == 'editorial' %}
+    <div class="hero3-child">
+      <div class="hero3-wrapper">
+        <div class="hero3-bg">
+          {% if section.settings.hero_image %}
+            {{ section.settings.hero_image | image_url: width: 1500, height: 1500 | image_tag: class: 'hero-img-3' }}
+          {% else %}
+            <p>No Image Selected.</p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="block-top-right">
+        {% for block in section.blocks %}
+          {% if block.type == 'heading_block' %}
+            <h1
+              class="hero-heading hero2-heading"
+              style="
+                            text-align: {% if section.settings.content_alignment == 'left' %}
+                  left;
+                  {% elsif section.settings.content_alignment == 'center' %}
+                  center;
+                  {% elsif section.settings.content_alignment == 'right' %}
+                    right;
+                  {% endif %};
+                font-size: {% if block.settings.heading_size == 'small' %}
+                25px;
+                {% elsif block.settings.heading_size == 'medium' %}
+                35px;
+                {% elsif block.settings.heading_size == 'large' %}
+                40px;
+                {% elsif block.settings.heading_size == 'extra_large' %}
+                50px;
+                {% endif %};
+                color: {{ block.settings.header_color }};
+                --heading-top-margin: {{ block.settings.heading_margin_top }}px;
+                --heading-bottom-margin : {{block.settings.heading_margin_bottom }}px;
+              "
+            >
+              {{ block.settings.heading }}
+            </h1>
+          {% endif %}
+          {% if block.type == 'text_block' %}
+            <p
+              class="hero-text hero2-text"
+              style="
+                             text-transform: {% if block.settings.text_style == 'body' %}
+                inherit;
+                {% elsif block.settings.text_style == 'subtitle' %}
+                capitalize;
+                {% elsif block.settings.text_style == 'uppercase' %}
+                uppercase;
+                {%endif %}
+                text-align: {% if section.settings.content_alignment == 'left' %}
                 left;
                 {% elsif section.settings.content_alignment == 'center' %}
                 center;
                 {% elsif section.settings.content_alignment == 'right' %}
                   right;
                 {% endif %};
-              font-size: {% if block.settings.heading_size == 'small' %}
-              25px;
-              {% elsif block.settings.heading_size == 'medium' %}
-              35px;
-              {% elsif block.settings.heading_size == 'large' %}
-              40px;
-              {% elsif block.settings.heading_size == 'extra_large' %}
-              50px;
-              {% endif %};
-              color: {{ block.settings.header_color }};
-              --heading-top-margin: {{ block.settings.heading_margin_top }}px;
-              --heading-bottom-margin : {{block.settings.heading_margin_bottom }}px;
-            "
-          >
-            {{ block.settings.heading }}
-          </h1>
-        {% endif %}
-        {% if block.type == 'text_block' %}
-          <p
-            class="hero-text hero2-text"
-            style="
-                           text-transform: {% if block.settings.text_style == 'body' %}
-              inherit;
-              {% elsif block.settings.text_style == 'subtitle' %}
-              capitalize;
-              {% elsif block.settings.text_style == 'uppercase' %}
-              uppercase;
-              {%endif %}
-              text-align: {% if section.settings.content_alignment == 'left' %}
-              left;
-              {% elsif section.settings.content_alignment == 'center' %}
-              center;
-              {% elsif section.settings.content_alignment == 'right' %}
-                right;
-              {% endif %};
-              color: {{ block.settings.text_color }};
-              --text-top-margin: {{block.settings.text_top_margin }}px;
-              --text-bottom-margin: {{ block.settings.text_bottom_margin }}px;
-            "
-          >
-            {{ block.settings.hero_text }}
-          </p>
-        {% endif %}
-        {% if block.type == 'button_block' %}
-          <div
-            class="hero-btn-flex hero2_btn_flex"
-            style="
-                           justify-content: {% if section.settings.content_alignment == 'left' %}
-                flex-start;
-                {% elsif section.settings.content_alignment == 'center' %}
-                center;
-                {% elsif section.settings.content_alignment == 'right' %}
-                flex-end;
-                {% endif %};
-              --btn-border-width: {{ block.settings.button_border_width }}px;
-              --btn-border-color: {{ block.settings.button_border_color }};
-              --btn-border-radius: {{ block.settings.button_border_radius }}px;
-                --btn-color: {{ block.settings.button_link_color }};
-                --btn-bg-color: {{ block.settings.button_bg_color }};
-                --btn-hover-color: {{ block.settings.button_link_hover_color }};
-                --btn-hover-bg: {{ block.settings.button_link_hover_bg }};
-                --btn2-color: {{ block.settings.button_link_2_color }};
-                --btn2-bg-color : {{ block.settings.button_bg_2_color }};
-                --btn2-width : {{ block.settings.button2_border_width }}px;
-                --btn2-border-color : {{block.settings.button2_border_color }};
-                --btn2-radius : {{ block.settings.button2_border_radius }}px;
-                --btn2-hover-color: {{ block.settings.button_link_2_hover_color }};
-                --btn2-hover-bg: {{ block.settings.button_link_2_hover_bg }};
-            "
-          >
-            <a href="{{ block.settings.button_link }}">
-              <button class="hero-btn shop">
-                {{ block.settings.button_label }}
-              </button>
-            </a>
-            {% if block.settings.show_button_2 == true %}
-              <a href="{{block.settings.button_link_2 }}">
-                <button class="hero-btn view">
-                  {{ block.settings.button_label_2 }}
+                color: {{ block.settings.text_color }};
+                --text-top-margin: {{block.settings.text_top_margin }}px;
+                --text-bottom-margin: {{ block.settings.text_bottom_margin }}px;
+              "
+            >
+              {{ block.settings.hero_text }}
+            </p>
+          {% endif %}
+          {% if block.type == 'button_block' %}
+            <div
+              class="hero-btn-flex hero2_btn_flex"
+              style="
+                             justify-content: {% if section.settings.content_alignment == 'left' %}
+                  flex-start;
+                  {% elsif section.settings.content_alignment == 'center' %}
+                  center;
+                  {% elsif section.settings.content_alignment == 'right' %}
+                  flex-end;
+                  {% endif %};
+                --btn-border-width: {{ block.settings.button_border_width }}px;
+                --btn-border-color: {{ block.settings.button_border_color }};
+                --btn-border-radius: {{ block.settings.button_border_radius }}px;
+                  --btn-color: {{ block.settings.button_link_color }};
+                  --btn-bg-color: {{ block.settings.button_bg_color }};
+                  --btn-hover-color: {{ block.settings.button_link_hover_color }};
+                  --btn-hover-bg: {{ block.settings.button_link_hover_bg }};
+                  --btn2-color: {{ block.settings.button_link_2_color }};
+                  --btn2-bg-color : {{ block.settings.button_bg_2_color }};
+                  --btn2-width : {{ block.settings.button2_border_width }}px;
+                  --btn2-border-color : {{block.settings.button2_border_color }};
+                  --btn2-radius : {{ block.settings.button2_border_radius }}px;
+                  --btn2-hover-color: {{ block.settings.button_link_2_hover_color }};
+                  --btn2-hover-bg: {{ block.settings.button_link_2_hover_bg }};
+              "
+            >
+              <a href="{{ block.settings.button_link }}">
+                <button class="hero-btn shop">
+                  {{ block.settings.button_label }}
                 </button>
               </a>
-            {% endif %}
-          </div>
-        {% endif %}
-      {% endfor %}
+              {% if block.settings.show_button_2 == true %}
+                <a href="{{block.settings.button_link_2 }}">
+                  <button class="hero-btn view">
+                    {{ block.settings.button_label_2 }}
+                  </button>
+                </a>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div
+        class="block-bottom-right"
+        style="
+          align-items: {% if section.settings.block2_content_alignment == 'left' %}
+          flex-start;
+          {% elsif section.settings.block2_content_alignment == 'center' %}
+           center;
+           {% elsif section.settings.block2_content_alignment == 'right' %}
+            flex-end;
+          {% endif %};
+           justify-content: {% if section.settings.block2_content_position == 'top' %}
+           flex-start;
+           {% elsif section.settings.block2_content_position == 'center' %}
+            center;
+            {%elsif section.settings.block2_content_position == 'bottom' %}
+            flex-end;
+            {% endif %};
+        "
+      >
+        <div class="block-bottom-heading">{{ section.settings.block2_heading }}</div>
+        <div class="block-bottom-label">{{ section.settings.block2_text }}</div>
+        <a class="block-bottom-link">
+          <button class="block-bottom-button view">{{ section.settings.block2_button_label }}</button></a
+        >
+      </div>
     </div>
-  </div>
+  {% endif %}
 </div>
 
 <script src="{{ 'custom-banner.css' | asset_url }}" async></script>
@@ -272,7 +411,102 @@
           "label": "Large"
         }
       ],
-      "default": "medium"
+      "default": "medium",
+      "visible_if": "{{ section.settings.image_container_layout == 'centered' }}"
+    },
+    {
+      "type": "select",
+      "id": "image_container_layout",
+      "label": "Image Layout",
+      "options": [
+        {
+          "value": "centered",
+          "label": "Centered"
+        },
+        {
+          "value": "split",
+          "label": "Split"
+        },
+        {
+          "value": "editorial",
+          "label": "Editorial"
+        }
+      ],
+      "default": "centered"
+    },
+    {
+      "type": "header",
+      "content": "Editorial Styling",
+      "visible_if": "{{ section.settings.image_container_layout == 'editorial' }}"
+    },
+    {
+      "type": "select",
+      "id": "block2_content_alignment",
+      "label": "Content Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left",
+      "visible_if": "{{ section.settings.image_container_layout == 'editorial' }}"
+    },
+    {
+      "type": "select",
+      "id": "block2_content_position",
+      "label": "Content Position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ],
+      "default": "center",
+      "visible_if": "{{ section.settings.image_container_layout == 'editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "block2_heading",
+      "label": "Heading",
+      "default": "LUXURY FASHION AND ACCESSORIES",
+      "visible_if": "{{ section.settings.image_container_layout == 'editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "block2_text",
+      "label": "Label",
+      "default": "Give customers details about the banner image(s) or content on the template.",
+      "visible_if": "{{ section.settings.image_container_layout == 'editorial' }}"
+    },
+    {
+      "type": "text",
+      "id": "block2_button_label",
+      "label": "Button Label",
+      "default": "Shop the look",
+      "visible_if": "{{ section.settings.image_container_layout == 'editorial' }}"
+    },
+    {
+      "type": "url",
+      "id": "block2_button_url",
+      "label": "Url",
+      "visible_if": "{{ section.settings.image_container_layout == 'editorial' }}"
     },
     {
       "type": "header",

@@ -1,6 +1,6 @@
 .hero-parent,
 .hero-child,
-.hero-second-child {
+.hero2-child {
   position: relative;
   width: 100%;
 }
@@ -98,20 +98,16 @@
 }
 
 /* Second Hero Banner */
-.hero-second-child {
+.hero2-child {
   display: grid;
   grid-template-columns: 60fr 40fr;
-}
-@media (max-width: 750px) {
-  .hero-second-child {
-    grid-template-columns: 1fr;
-  }
+  align-items: center;
 }
 .hero2-bg {
   position: relative;
   inset: 0;
+  display: flex;
   max-width: 100%;
-  height: 82vh;
 }
 .hero-img-2 {
   width: 100%;
@@ -131,4 +127,69 @@
 }
 .hero2-text {
   width: 100%;
+}
+@media (max-width: 750px) {
+  .hero-second-child {
+    grid-template-columns: 1fr;
+  }
+  .hero2-text {
+    display: block;
+  }
+}
+.hero3-child {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+.hero3-wrapper {
+  grid-column: 1/3;
+  grid-row: 1/3;
+  position: relative;
+  inset: 0;
+  display: flex;
+  max-width: 100%;
+}
+.hero3-bg {
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: inherit;
+}
+.block-top-right {
+  padding: 40px;
+  border: none;
+  display: flex;
+  flex-flow: column;
+  gap: 15px;
+  align-items: flex-start;
+  justify-content: center;
+}
+.block-bottom-right {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 40px;
+  border: none;
+  background-color: black;
+  color: white;
+  gap: 16px;
+}
+.block-bottom-heading {
+  width: 100%;
+}
+.block-bottom-label {
+  width: 100%;
+}
+.block-bottom-button {
+  border-radius: 30px;
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 40px;
+  border: 1px solid #e5e5e5;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }

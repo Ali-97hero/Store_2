@@ -116,216 +116,192 @@
 
   }
 </style>
-<div {{ section.shopify_attributes }}>
-  <div class="outer-container">
-    <div class="inner-container">
-      <div
-        class="section_title__wrapper"
-        style="text-align: {{ section.settings.section_title_alignment }}"
+<div class="outer-container" {{ section.shopify_attributes }}>
+  <div class="inner-container">
+    <div class="section_title__wrapper" style="text-align: {{ section.settings.section_title_alignment }}">
+      <h1
+        class="section_title__class"
+        style="
+          font-family: {% if section.settings.use_custom_font == true and section.settings.section_title_custom_font_family != '' %}
+          {{ section.settings.section_title_custom_font_family }}
+          {% else %}
+          {{ section.settings.section_title_font.family }}
+          {% endif %};
+              font-weight: {% if section.settings.section_title_font_weight == 'light'%}
+                  300
+              {% elsif section.settings.section_title_font_weight == 'regular' %}
+                  400
+                  {% elsif section.settings.section_title_font_weight == 'semi_bold' %}
+                  600
+              {% elsif section.settings.section_title_font_weight == 'bold' %}
+                  700
+              {% else %}
+                  normal
+              {% endif %};
+        "
       >
-        <{{ section.settings.html_element }}
-          class="section_title__class"
-          style="
-            font-family: {% if section.settings.use_custom_font == true and section.settings.section_title_custom_font_family != '' %}
-            {{ section.settings.section_title_custom_font_family }}
-            {% else %}
-            {{ section.settings.section_title_font.family }}
-            {% endif %};
-                font-weight: {% if section.settings.section_title_font_weight == 'light'%}
-                    300
-                {% elsif section.settings.section_title_font_weight == 'regular' %}
-                    400
-                    {% elsif section.settings.section_title_font_weight == 'semi_bold' %}
-                    600
-                {% elsif section.settings.section_title_font_weight == 'bold' %}
-                    700
-                {% else %}
-                    normal
-                {% endif %};
-          "
-        >
-          {{- section.settings.section_title -}}
-        </{{ section.settings.html_element }}>
-        <div
-          class="section_text__class"
-          style="
-            font-family: {% if section.settings.use_custom_font_2 == true and section.settings.custom_fontfamily_name != '' %}
-            {{ section.settings.custom_fontfamily_name }}
-             {% else %}
-             {{ section.settings.textarea_font.family }}
-            {% endif %};
-             font-weight: {% if section.settings.textarea__font_weight == 'light'%}
-                    300
-                {% elsif section.settings.textarea__font_weight == 'regular' %}
-                    400
-                    {% elsif section.settings.textarea__font_weight == 'semi_bold' %}
-                    600
-                {% elsif section.settings.textarea__font_weight == 'bold' %}
-                    700
-                    {%else %}
-                    normal
-                {% endif %};
-          "
-        >
-          {{ section.settings.section_richtext_title }}
+        {{- section.settings.section_title -}}
+      </h1>
+      <div
+        class="section_text__class"
+        style="
+          font-family: {% if section.settings.use_custom_font_2 == true and section.settings.custom_fontfamily_name != '' %}
+          {{ section.settings.custom_fontfamily_name }}
+           {% else %}
+           {{ section.settings.textarea_font.family }}
+          {% endif %};
+           font-weight: {% if section.settings.textarea__font_weight == 'light'%}
+                  300
+              {% elsif section.settings.textarea__font_weight == 'regular' %}
+                  400
+                  {% elsif section.settings.textarea__font_weight == 'semi_bold' %}
+                  600
+              {% elsif section.settings.textarea__font_weight == 'bold' %}
+                  700
+                  {%else %}
+                  normal
+              {% endif %};
+        "
+      >
+        {{ section.settings.section_richtext_title }}
+      </div>
+    </div>
+    <div class="image_section_wrapper">
+      <div class="image_picker__class_outer_container">
+        <div class="image_picker__class" style="border-radius: {{ section.settings.image_border }}px;">
+          {% if section.settings.image_picker_desktop %}
+            <div class="section_image_parent_parent">
+              {{
+                section.settings.image_picker_desktop
+                | image_url: width: 1500
+                | image_tag: class: 'section_image_parent'
+              }}
+              {% for block in section.blocks %}
+                {% if block.type == 'product' %}
+                  <button
+                    class="dot__button"
+                    style="
+                      padding: {% if section.settings.marker_size == 'small' %}
+                      5px;
+                      {% elsif section.settings.marker_size == 'medium' %}
+                      7px;
+                      {% elsif section.settings.marker_size == 'large' %}
+                      10px;
+                      {% endif %}
+                      left: {{ block.settings.horizontal_position }}%;
+                      top: {{ block.settings.vertical_position }}%;
+                    "
+                    data-product-id="{{ block.settings.product.id }}"
+                  ></button>
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% else %}
+            <p>No image selected.</p>
+          {% endif %}
         </div>
       </div>
-      <div class="image_section_wrapper">
-        <div
-          class="image_picker__class_outer_container"
-          style="
-            {% if section.settings.image_position == 'left' %}
-            justify-content: left;
-            {% elsif section.settings.image_position == 'center' %}
-            justify-content: center;
-            {% elsif section.settings.image_position == 'right'%}
-            justify-content: right;
-            {% endif %}
-          "
-        >
-          <div
-            class="image_picker__class"
-            style="
-                          aspect-ratio:{% if section.settings.image_dimension == 'landscape' %}
-               16/9
-              {% elsif section.settings.image_dimension == 'square' %}
-               1/1
-              {% elsif section.settings.image_dimension == 'portrait' %}
-               2/3
-               {% else %}
-                2/3
-               {% endif %};
-                border-radius: {{ section.settings.image_border  }}px;
-            "
-          >
-            {% if section.settings.image_picker_desktop %}
-              <div class="section_image_parent">
-                {{ section.settings.image_picker_desktop | image_url: width: 1500, height: 1500 | image_tag }}
-              </div>
-            {% endif %}
-
-            {% for block in section.blocks %}
-              {% if block.type == 'product' %}
-                <button
-                  class="dot__button"
-                  style="
-                     padding: {% if section.settings.marker_size == 'small' %}
-                        5px 5px
-                       {% elsif section.settings.marker_size == 'medium' %}
-                        7px 7px
-                        {% elsif section.settings.marker_size == 'large' %}
-                         10px 10px
-                       {% endif %};
-                    left: {{ block.settings.horizontal_position }}%;
-                    top: {{ block.settings.vertical_position }}%;
-                  "
-                  data-product-id="{{ block.settings.product.id }}"
-                ></button>
+      <div class="product_section__outer_wrapper">
+        {% for block in section.blocks %}
+          {% if block.type == 'product' and block.settings.product != blank %}
+            {% assign has_products = true %}
+            <div
+              class="product_section__inner_wrapper card"
+              data-product-id="{{ block.settings.product.id }}"
+              {% if forloop.first %}
+                style="display: flex"
+              {% else %}
+                style="display:none"
               {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-        <div class="product_section__outer_wrapper">
-          {% for block in section.blocks %}
-            {% if block.type == 'product' and block.settings.product != blank %}
-              {% assign has_products = true %}
+            >
               <div
-                class="product_section__inner_wrapper card"
-                data-product-id="{{ block.settings.product.id }}"
-                {% if forloop.first %}
-                  style="display: flex"
-                {% else %}
-                  style="display:none"
-                {% endif %}
+                class="product_image_wrapper"
+                style="
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {% if section.settings.show_product_image == true %}display: block;{% else %}display: none;{% endif %}
+                "
               >
-                <div
-                  class="product_image_wrapper"
-                  style="
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {% if section.settings.show_product_image == true %}display: block;{% else %}display: none;{% endif %}
-                  "
-                >
-                  <a href="{{ block.settings.product.url }}">
-                    {{
-                      block.settings.product.featured_image
-                      | image_url: width: 500, height: 500
-                      | image_tag: class: 'product__img'
-                    }}
-                  </a>
-                </div>
-                <div {{ block.shopify_attributes }} class="product_text_content__wrapper" style="text-align: center">
-                  <{{ section.settings.product_title_html }}
-                    class="product_title_wrapper"
-                    style="
-                      {% if section.settings.show_product_title_checkbox == true %}
-                        display: block;
-                            {% if section.settings.product_title_custom_font == true %}
-                                font-family: {{section.settings.product_title_custom_font_family_name }}
-                            {% else %}
-                                font-family: {{ section.settings.product_title_font_picker.family }}
-                            {%endif %};
-                                font-weight: {% if section.settings.product_title_font_weight == 'default' %}
-                                normal;
-                            {% else %}
-                                {{ section.settings.product_title_font_weight }}
-                            {% endif %};
-                            {%else %}
-                                display: none;
-                      {% endif %}
-                    "
-                  >
-                    {{ block.settings.product.title }}
-                  </{{ section.settings.product_title_html }}>
-                  <div
-                    class="product_price_wrapper"
-                    style="
-                                       display: {% if section.settings.show_product_price == true %}block{% else %}none{% endif %};
-                      {% if section.settings.show_product_price == true %}
-                        font-family: {% if section.settings.product_price_custom_font == true %}
-                          {{ section.settings.product_price_font_family }}
-                        {% else %}
-                          {{ section.settings.product_price_title_font.family }}
-                        {% endif %};
-                        font-weight: {% if section.settings.product_price_font_weight == 'default' %}
-                          normal
-                        {% else %}
-                          {{ section.settings.product_price_font_weight }}
-                        {% endif %};
-                      {% endif %}
-                    "
-                  >
-                    {{ block.settings.product.price | money }}
-                  </div>
-                </div>
-                <button
-                  data-variant-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
-                  class="product_button_wrapper shop-now-btn"
-                  style="
-                    display: {% if section.settings.button_checkbox == true %}block{% else %}none{% endif %};
-                    font-family: {% if section.settings.button_custom_font == true and section.settings.button_custom_font_family != '' %}
-                      {{ section.settings.button_custom_font_family }}
-                    {% else %}
-                      {{ section.settings.button_font_picker.family }}
-                    {% endif %};
-                    font-weight: {% if section.settings.button_font_weight == 'default' %}
-                      normal
-                    {% else %}
-                      {{ section.settings.button_font_weight }}
-                    {% endif %};
-                  "
-                >
-                  {{- section.settings.button_label -}}
-                </button>
+                <a href="{{ block.settings.product.url }}">
+                  {{
+                    block.settings.product.featured_image
+                    | image_url: width: 500, height: 500
+                    | image_tag: class: 'product__img'
+                  }}
+                </a>
               </div>
-            {% endif %}
-          {% endfor %}
-          {% unless has_products %}
-            <p>No Product Selected.</p>
-          {% endunless %}
-        </div>
+              <div {{ block.shopify_attributes }} class="product_text_content__wrapper" style="text-align: center">
+                <h2
+                  class="product_title_wrapper"
+                  style="
+                    {% if section.settings.show_product_title_checkbox == true %}
+                      display: block;
+                          {% if section.settings.product_title_custom_font == true %}
+                              font-family: {{section.settings.product_title_custom_font_family_name }}
+                          {% else %}
+                              font-family: {{ section.settings.product_title_font_picker.family }}
+                          {%endif %};
+                              font-weight: {% if section.settings.product_title_font_weight == 'default' %}
+                              normal;
+                          {% else %}
+                              {{ section.settings.product_title_font_weight }}
+                          {% endif %};
+                          {%else %}
+                              display: none;
+                    {% endif %}
+                  "
+                >
+                  {{ block.settings.product.title }}
+                </h2>
+                <div
+                  class="product_price_wrapper"
+                  style="
+                                     display: {% if section.settings.show_product_price == true %}block{% else %}none{% endif %};
+                    {% if section.settings.show_product_price == true %}
+                      font-family: {% if section.settings.product_price_custom_font == true %}
+                        {{ section.settings.product_price_font_family }}
+                      {% else %}
+                        {{ section.settings.product_price_title_font.family }}
+                      {% endif %};
+                      font-weight: {% if section.settings.product_price_font_weight == 'default' %}
+                        normal
+                      {% else %}
+                        {{ section.settings.product_price_font_weight }}
+                      {% endif %};
+                    {% endif %}
+                  "
+                >
+                  {{ block.settings.product.price | money }}
+                </div>
+              </div>
+              <button
+                data-variant-id="{{ block.settings.product.selected_or_first_available_variant.id }}"
+                class="product_button_wrapper shop-now-btn"
+                style="
+                  display: {% if section.settings.button_checkbox == true %}block{% else %}none{% endif %};
+                  font-family: {% if section.settings.button_custom_font == true and section.settings.button_custom_font_family != '' %}
+                    {{ section.settings.button_custom_font_family }}
+                  {% else %}
+                    {{ section.settings.button_font_picker.family }}
+                  {% endif %};
+                  font-weight: {% if section.settings.button_font_weight == 'default' %}
+                    normal
+                  {% else %}
+                    {{ section.settings.button_font_weight }}
+                  {% endif %};
+                "
+              >
+                {{- section.settings.button_label -}}
+              </button>
+            </div>
+          {% endif %}
+        {% endfor %}
+        {% unless has_products %}
+          <p>No Product Selected.</p>
+        {% endunless %}
       </div>
     </div>
   </div>
 </div>
+
 <script src="{{ 'shop-the-look.js' | asset_url }}" async></script>
 
 {% schema %}
@@ -340,21 +316,6 @@
       "id": "section_title"
     },
     {
-      "type": "select",
-      "label": "HTML Element",
-      "id": "html_element",
-      "options": [
-        { "value": "h1", "label": "H1" },
-        { "value": "h2", "label": "H2" },
-        { "value": "h3", "label": "H3" },
-        { "value": "h4", "label": "H4" },
-        { "value": "h5", "label": "H5" },
-        { "value": "h6", "label": "H6" }
-      ],
-      "default": "h2",
-      "info": "For better SEO"
-    },
-    {
       "type": "richtext",
       "label": "Section Text",
       "id": "section_richtext_title"
@@ -367,50 +328,6 @@
       "type": "image_picker",
       "label": "Image",
       "id": "image_picker_desktop"
-    },
-    {
-      "type": "select",
-      "label": "Image Dimension",
-      "id": "image_dimension",
-      "options": [
-        {
-          "value": "original",
-          "label": "Original"
-        },
-        {
-          "value": "landscape",
-          "label": "Landscape"
-        },
-        {
-          "value": "portrait",
-          "label": "Portrait"
-        },
-        {
-          "value": "square",
-          "label": "Square"
-        }
-      ],
-      "default": "original"
-    },
-    {
-      "type": "select",
-      "label": "Image Position",
-      "id": "image_position",
-      "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
-      ],
-      "default": "left"
     },
     {
       "type": "header",
@@ -429,7 +346,7 @@
     {
       "type": "range",
       "id": "image_border_width",
-      "min": 1,
+      "min": 0,
       "max": 20,
       "step": 1,
       "unit": "px",
@@ -997,7 +914,7 @@
     {
       "type": "select",
       "id": "product_image_container",
-      "label": "Image Container Position",
+      "label": "Image Alignment",
       "options": [
         {
           "value": "left",
@@ -1083,21 +1000,6 @@
       "type": "color",
       "id": "product_title_color",
       "label": "Product Title Color"
-    },
-    {
-      "type": "select",
-      "id": "product_title_html",
-      "label": "HTML Element",
-      "options": [
-        { "value": "h1", "label": "H1" },
-        { "value": "h2", "label": "H2" },
-        { "value": "h3", "label": "H3" },
-        { "value": "h4", "label": "H4" },
-        { "value": "h5", "label": "H5" },
-        { "value": "h6", "label": "H6" }
-      ],
-      "default": "h4",
-      "info": "For Better SEO"
     },
     {
       "type": "checkbox",
